@@ -1,11 +1,35 @@
-.terraform/
-*.tfstate
-*.tfstate.*
-terraform.tfvars
+# Terraform
+**/.terraform/
+**/*.tfstate
+**/*.tfstate.*
+**/terraform.tfvars
+**/.terraform.lock.hcl
+
+# AWS Keys
 *.pem
 *.key
 
+# Logs
 crash.log
 override.tf
 override.tf.json
 
+# Ansible
+*.retry
+
+# Java / Spring Boot
+**/target/
+*.jar
+
+# NodeJS / React
+**/node_modules/
+**/dist/
+**/build/
+
+# IDE
+.vscode/
+.idea/
+
+# OS Files
+.DS_Store
+Thumbs.db
