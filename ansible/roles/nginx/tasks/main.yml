@@ -1,0 +1,11 @@
+---
+- name: Install nginx
+  apt:
+    name: nginx
+    state: present
+
+- name: Deploy nginx homepage
+  copy:
+    content: "Welcome to RetailSphere"
+    dest: /var/www/html/index.html
+  notify: Restart Nginx

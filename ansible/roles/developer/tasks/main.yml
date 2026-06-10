@@ -1,0 +1,8 @@
+---
+- name: Install developer packages
+  apt:
+    name:
+      - openjdk-17-jdk
+      - maven
+      - git
+    state: present

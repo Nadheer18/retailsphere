@@ -1,0 +1,7 @@
+---
+- name: Install Jenkins prerequisites
+  apt:
+    name:
+      - openjdk-17-jdk
+      - git
+    state: present

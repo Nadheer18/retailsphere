@@ -1,0 +1,8 @@
+---
+common_packages:
+  - git
+  - curl
+  - wget
+  - unzip
+  - vim
+  - htop

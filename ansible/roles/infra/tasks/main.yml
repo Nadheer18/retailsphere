@@ -1,0 +1,8 @@
+---
+- name: Install infra packages
+  apt:
+    name:
+      - unzip
+      - curl
+      - git
+    state: present
