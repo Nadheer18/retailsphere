@@ -1,0 +1,5 @@
+---
+jenkins_packages:
+  - openjdk-21-jre
+  - docker.io
+  - git

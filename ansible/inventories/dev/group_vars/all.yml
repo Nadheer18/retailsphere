@@ -6,3 +6,7 @@ common_packages:
   - unzip
   - vim
   - htop
+
+company_name: RetailSphere
+deployment_environment: Dev
+owner: Nadheer

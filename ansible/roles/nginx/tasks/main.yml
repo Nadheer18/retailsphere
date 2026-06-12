@@ -4,8 +4,14 @@
     name: nginx
     state: present
 
+- name: Start and enable nginx
+  service:
+    name: nginx
+    state: started
+    enabled: yes
+
 - name: Deploy nginx homepage
-  copy:
-    content: "Welcome to RetailSphere"
+  template:
+    src: index.html.j2
     dest: /var/www/html/index.html
   notify: Restart Nginx
