@@ -1,17 +1,21 @@
 package com.retailsphere.service;
 
 import com.retailsphere.dto.ProductRequest;
-import com.retailsphere.entity.Product;
+import com.retailsphere.dto.ProductResponse;
 
 import java.util.List;
 
 public interface ProductService {
 
-    Product createProduct(ProductRequest request);
+    ProductResponse createProduct(ProductRequest request);
 
-    List<Product> getAllProducts();
+    List<ProductResponse> getAllProducts();
 
-    Product getProductById(Long id);
+    ProductResponse getProductById(Long id);
+
+    ProductResponse updateProduct(
+            Long id,
+            ProductRequest request);
 
     void deleteProduct(Long id);
 }

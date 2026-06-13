@@ -1,7 +1,9 @@
 package com.retailsphere.service.impl;
 
 import com.retailsphere.dto.ProductRequest;
+import com.retailsphere.dto.ProductResponse;
 import com.retailsphere.entity.Product;
+import com.retailsphere.exception.ProductNotFoundException;
 import com.retailsphere.repository.ProductRepository;
 import com.retailsphere.service.ProductService;
 import lombok.RequiredArgsConstructor;
@@ -16,7 +18,7 @@ public class ProductServiceImpl implements ProductService {
     private final ProductRepository productRepository;
 
     @Override
-    public Product createProduct(ProductRequest request) {
+    public ProductResponse createProduct(ProductRequest request) {
 
         Product product = Product.builder()
                 .name(request.getName())
@@ -25,22 +27,70 @@ public class ProductServiceImpl implements ProductService {
                 .stockQuantity(request.getStockQuantity())
                 .build();
 
-        return productRepository.save(product);
+        Product savedProduct = productRepository.save(product);
+
+        return mapToResponse(savedProduct);
     }
 
     @Override
-    public List<Product> getAllProducts() {
-        return productRepository.findAll();
+    public List<ProductResponse> getAllProducts() {
+
+        return productRepository.findAll()
+                .stream()
+                .map(this::mapToResponse)
+                .toList();
     }
 
     @Override
-    public Product getProductById(Long id) {
-        return productRepository.findById(id)
-                .orElseThrow();
+    public ProductResponse getProductById(Long id) {
+
+        Product product = productRepository.findById(id)
+                .orElseThrow(() ->
+                        new ProductNotFoundException(id));
+
+        return mapToResponse(product);
+    }
+
+    @Override
+    public ProductResponse updateProduct(
+            Long id,
+            ProductRequest request) {
+
+        Product product = productRepository.findById(id)
+                .orElseThrow(() ->
+                        new ProductNotFoundException(id));
+
+        product.setName(request.getName());
+        product.setDescription(request.getDescription());
+        product.setPrice(request.getPrice());
+        product.setStockQuantity(request.getStockQuantity());
+
+        Product updatedProduct =
+                productRepository.save(product);
+
+        return mapToResponse(updatedProduct);
     }
 
     @Override
     public void deleteProduct(Long id) {
-        productRepository.deleteById(id);
+
+        Product product = productRepository.findById(id)
+                .orElseThrow(() ->
+                        new ProductNotFoundException(id));
+
+        productRepository.delete(product);
+    }
+
+    private ProductResponse mapToResponse(Product product) {
+
+        return ProductResponse.builder()
+                .id(product.getId())
+                .name(product.getName())
+                .description(product.getDescription())
+                .price(product.getPrice())
+                .stockQuantity(product.getStockQuantity())
+                .createdAt(product.getCreatedAt())
+                .updatedAt(product.getUpdatedAt())
+                .build();
     }
 }
