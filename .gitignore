@@ -2,7 +2,6 @@
 **/.terraform/
 **/*.tfstate
 **/*.tfstate.*
-**/terraform.tfvars
 **/.terraform.lock.hcl
 
 # AWS Keys
@@ -33,3 +32,8 @@ override.tf.json
 # OS Files
 .DS_Store
 Thumbs.db
+
+*.swp
+*.swo
+*.tmp
+*.bak

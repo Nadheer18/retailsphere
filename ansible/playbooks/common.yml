@@ -1,0 +1,21 @@
+---
+- name: Common Configuration
+  hosts: all
+  become: true
+
+  tasks:
+
+    - name: Update apt cache
+      apt:
+        update_cache: yes
+
+    - name: Install common packages
+      apt:
+        name:
+          - git
+          - curl
+          - wget
+          - unzip
+          - vim
+          - htop
+        state: present
