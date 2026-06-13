@@ -20,4 +20,7 @@ public class ProductRequest {
     @NotNull
     @Min(0)
     private Integer stockQuantity;
+
+    @NotNull
+    private Long categoryId;
 }

@@ -2,8 +2,11 @@ package com.retailsphere.service.impl;
 
 import com.retailsphere.dto.ProductRequest;
 import com.retailsphere.dto.ProductResponse;
+import com.retailsphere.entity.Category;
 import com.retailsphere.entity.Product;
+import com.retailsphere.exception.CategoryNotFoundException;
 import com.retailsphere.exception.ProductNotFoundException;
+import com.retailsphere.repository.CategoryRepository;
 import com.retailsphere.repository.ProductRepository;
 import com.retailsphere.service.ProductService;
 import lombok.RequiredArgsConstructor;
@@ -16,15 +19,23 @@ import java.util.List;
 public class ProductServiceImpl implements ProductService {
 
     private final ProductRepository productRepository;
+    private final CategoryRepository categoryRepository;
 
     @Override
     public ProductResponse createProduct(ProductRequest request) {
+
+        Category category = categoryRepository.findById(
+                request.getCategoryId())
+                .orElseThrow(() ->
+                        new CategoryNotFoundException(
+                                request.getCategoryId()));
 
         Product product = Product.builder()
                 .name(request.getName())
                 .description(request.getDescription())
                 .price(request.getPrice())
                 .stockQuantity(request.getStockQuantity())
+                .category(category)
                 .build();
 
         Product savedProduct = productRepository.save(product);
@@ -60,10 +71,17 @@ public class ProductServiceImpl implements ProductService {
                 .orElseThrow(() ->
                         new ProductNotFoundException(id));
 
+        Category category = categoryRepository.findById(
+                request.getCategoryId())
+                .orElseThrow(() ->
+                        new CategoryNotFoundException(
+                                request.getCategoryId()));
+
         product.setName(request.getName());
         product.setDescription(request.getDescription());
         product.setPrice(request.getPrice());
         product.setStockQuantity(request.getStockQuantity());
+        product.setCategory(category);
 
         Product updatedProduct =
                 productRepository.save(product);
@@ -89,6 +107,8 @@ public class ProductServiceImpl implements ProductService {
                 .description(product.getDescription())
                 .price(product.getPrice())
                 .stockQuantity(product.getStockQuantity())
+                .categoryId(product.getCategory().getId())
+                .categoryName(product.getCategory().getName())
                 .createdAt(product.getCreatedAt())
                 .updatedAt(product.getUpdatedAt())
                 .build();
