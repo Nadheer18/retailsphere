@@ -62,5 +62,40 @@ public ResponseEntity<ApiResponse<Object>> handleCartItemNotFound(
                     .message(ex.getMessage())
                     .build());
 	}
+	
+    @ExceptionHandler(OrderNotFoundException.class)
+public ResponseEntity<ApiResponse<Object>> handleOrderNotFound(
+        OrderNotFoundException ex) {
+
+    return ResponseEntity.status(HttpStatus.NOT_FOUND)
+            .body(ApiResponse.builder()
+                    .success(false)
+                    .message(ex.getMessage())
+                    .build());
+	}
+	
+    	@ExceptionHandler(InsufficientStockException.class)
+public ResponseEntity<ApiResponse<Object>>
+handleInsufficientStock(
+        InsufficientStockException ex) {
+
+    return ResponseEntity.badRequest()
+            .body(ApiResponse.builder()
+                    .success(false)
+                    .message(ex.getMessage())
+                    .build());
+	}
+	
+	@ExceptionHandler(InvalidCredentialsException.class)
+public ResponseEntity<ApiResponse<Object>>
+handleInvalidCredentials(
+        InvalidCredentialsException ex) {
+
+    return ResponseEntity.badRequest()
+            .body(ApiResponse.builder()
+                    .success(false)
+                    .message(ex.getMessage())
+                    .build());
+	}
 
 }
