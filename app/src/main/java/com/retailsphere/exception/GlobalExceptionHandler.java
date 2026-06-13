@@ -29,5 +29,38 @@ public ResponseEntity<ApiResponse<Object>> handleCategoryNotFound(
                     .success(false)
                     .message(ex.getMessage())
                     .build());
-}
+	}
+
+    @ExceptionHandler(CustomerNotFoundException.class)
+public ResponseEntity<ApiResponse<Object>> handleCustomerNotFound(
+        CustomerNotFoundException ex) {
+
+    return ResponseEntity.status(HttpStatus.NOT_FOUND)
+            .body(ApiResponse.builder()
+                    .success(false)
+                    .message(ex.getMessage())
+                    .build());
+	}
+    @ExceptionHandler(CartNotFoundException.class)
+public ResponseEntity<ApiResponse<Object>> handleCartNotFound(
+        CartNotFoundException ex) {
+
+    return ResponseEntity.status(HttpStatus.NOT_FOUND)
+            .body(ApiResponse.builder()
+                    .success(false)
+                    .message(ex.getMessage())
+                    .build());
+	}
+
+    @ExceptionHandler(CartItemNotFoundException.class)
+public ResponseEntity<ApiResponse<Object>> handleCartItemNotFound(
+        CartItemNotFoundException ex) {
+
+    return ResponseEntity.status(HttpStatus.NOT_FOUND)
+            .body(ApiResponse.builder()
+                    .success(false)
+                    .message(ex.getMessage())
+                    .build());
+	}
+
 }
