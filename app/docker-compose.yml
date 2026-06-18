@@ -18,7 +18,7 @@ services:
       - mysql-data:/var/lib/mysql
 
   backend:
-    image: retailsphere-backend:v1
+    image: nadheer/retailsphere-backend:v1
 
     container_name: retailsphere-backend
 
