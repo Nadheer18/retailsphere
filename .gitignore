@@ -3,6 +3,8 @@
 **/*.tfstate
 **/*.tfstate.*
 **/.terraform.lock.hcl
+*.tfplan
+tfplan
 
 # AWS Keys
 *.pem
@@ -12,6 +14,7 @@
 crash.log
 override.tf
 override.tf.json
+*.log
 
 # Ansible
 *.retry
@@ -19,6 +22,10 @@ override.tf.json
 # Java / Spring Boot
 **/target/
 *.jar
+*.war
+
+# Environment Files
+.env
 
 # NodeJS / React
 **/node_modules/
@@ -28,11 +35,13 @@ override.tf.json
 # IDE
 .vscode/
 .idea/
+*.iml
 
 # OS Files
 .DS_Store
 Thumbs.db
 
+# Temporary Files
 *.swp
 *.swo
 *.tmp
