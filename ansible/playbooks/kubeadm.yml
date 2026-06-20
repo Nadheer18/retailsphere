@@ -1,0 +1,25 @@
+---
+- name: Prepare all nodes (common)
+  hosts: kubeadm-master
+  become: yes
+  roles:
+    - kubeadm-cluster
+
+- name: Prepare all nodes (common)
+  hosts: kubeadm-worker
+  become: yes
+  roles:
+    - kubeadm-cluster
+
+- name: Initialize Kubernetes master
+  hosts: kubeadm-master
+  become: yes
+  roles:
+    - kubeadm-master
+
+- name: Join worker nodes
+  hosts: kubeadm-worker
+  become: yes
+  roles:
+    - kubeadm-worker
+
