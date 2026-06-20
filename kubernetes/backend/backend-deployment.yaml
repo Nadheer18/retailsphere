@@ -1,0 +1,57 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: retailsphere-backend
+  namespace: retailsphere
+
+spec:
+  replicas: 2
+
+  strategy:
+    type: RollingUpdate
+
+  selector:
+    matchLabels:
+      app: retailsphere-backend
+
+  template:
+    metadata:
+      labels:
+        app: retailsphere-backend
+
+    spec:
+      containers:
+      - name: backend
+
+        image: nadheer/retailsphere-backend:latest
+
+        imagePullPolicy: Always
+
+        ports:
+        - containerPort: 8080
+
+        envFrom:
+        - configMapRef:
+            name: retailsphere-config
+
+        env:
+        - name: SPRING_DATASOURCE_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: retailsphere-secret
+              key: SPRING_DATASOURCE_PASSWORD
+
+        - name: JWT_SECRET
+          valueFrom:
+            secretKeyRef:
+              name: retailsphere-secret
+              key: JWT_SECRET
+
+        resources:
+          requests:
+            cpu: "250m"
+            memory: "512Mi"
+
+          limits:
+            cpu: "500m"
+            memory: "1Gi"
