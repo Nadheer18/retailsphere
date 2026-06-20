@@ -1,0 +1,19 @@
+namespace: retailsphere
+
+mysql:
+  image: mysql:8.0
+  rootPassword: root123
+  database: retailsphere
+
+backend:
+  image: nadheer/retailsphere-backend:v1
+  replicas: 3
+
+service:
+  type: ClusterIP
+  port: 8080
+
+ingress:
+  enabled: true
+  className: nginx
+  host: retailsphere.local
