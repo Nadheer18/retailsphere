@@ -30,10 +30,7 @@ spec:
           value: jdbc:mysql://mysql:3306/{{ .Values.mysql.database }}
 
         - name: SPRING_DATASOURCE_USERNAME
-          value: root
+          value: retailsphere
 
         - name: SPRING_DATASOURCE_PASSWORD
-          valueFrom:
-            secretKeyRef:
-              name: mysql-secret
-              key: MYSQL_ROOT_PASSWORD
+          value: retailsphere123

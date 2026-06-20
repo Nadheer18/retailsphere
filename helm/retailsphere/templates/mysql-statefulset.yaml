@@ -34,6 +34,12 @@ spec:
         - name: MYSQL_DATABASE
           value: {{ .Values.mysql.database }}
 
+        - name: MYSQL_USER
+          value: retailsphere
+
+        - name: MYSQL_PASSWORD
+          value: retailsphere123
+
         ports:
         - containerPort: 3306
 
