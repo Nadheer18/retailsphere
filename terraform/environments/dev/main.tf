@@ -33,10 +33,18 @@ module "ec2" {
   infra_sg_id     = module.security_groups.infra_sg_id
   developer_sg_id = module.security_groups.developer_sg_id
   bastion_sg_id   = module.security_groups.bastion_sg_id
-
   jenkins_instance_profile   = module.iam.jenkins_instance_profile
   infra_instance_profile     = module.iam.infra_instance_profile
   developer_instance_profile = module.iam.developer_instance_profile
+  key_name = "mumbai-region"
+}
 
+module "kubeadm" {
+
+  source = "../../modules/kubeadm"
+
+  public_subnet_id = module.vpc.public_subnet_1_id
+  
+  kubeadm_cluster_sg_id = module.security_groups.kubeadm_cluster_sg_id
   key_name = "mumbai-region"
 }
