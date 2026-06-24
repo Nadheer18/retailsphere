@@ -1,5 +1,0 @@
----
-developer_packages:
-  - openjdk-17-jdk
-  - maven
-  - docker.io

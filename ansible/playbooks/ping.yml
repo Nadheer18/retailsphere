@@ -1,9 +1,0 @@
----
-- name: Test Connectivity
-  hosts: all
-  become: yes
-
-  tasks:
-
-    - name: Ping Remote Server
-      ansible.builtin.ping:
