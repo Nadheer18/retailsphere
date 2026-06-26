@@ -1,0 +1,30 @@
+---
+# Kubernetes Version
+kubernetes_version: "1.29"
+
+# Container Runtime
+container_runtime: "containerd"
+
+# CNI Configuration
+cni_plugin: "flannel"
+pod_network_cidr: "10.244.0.0/16"
+
+# Cluster Configuration
+cluster_name: "retailsphere"
+
+# Package Versions
+kube_packages:
+  - kubelet
+  - kubeadm
+  - kubectl
+
+# Required Kernel Modules
+kernel_modules:
+  - overlay
+  - br_netfilter
+
+# Required Sysctl Parameters
+kubernetes_sysctl:
+  net.bridge.bridge-nf-call-iptables: "1"
+  net.bridge.bridge-nf-call-ip6tables: "1"
+  net.ipv4.ip_forward: "1"

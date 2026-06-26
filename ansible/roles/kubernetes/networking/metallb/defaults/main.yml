@@ -1,0 +1,13 @@
+---
+metallb_version: v0.14.5
+
+metallb_manifest: >-
+  https://raw.githubusercontent.com/metallb/metallb/{{ metallb_version }}/config/manifests/metallb-native.yaml
+
+metallb_namespace: metallb-system
+
+metallb_pool_name: public-ip-pool
+
+metallb_ip_range: 10.0.1.200-10.0.1.205
+
+metallb_l2_name: l2-advertisement

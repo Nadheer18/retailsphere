@@ -3,16 +3,16 @@
 - name: Wait for join file to be available on master (retry)
   wait_for:
     path: /tmp/kubeadm_join.sh
-    host: "{{ groups['kubeadm-master'][01] }}"
+    host: "{{ groups['kubeadm_master'][0] }}"
     timeout: 300
-  delegate_to: "{{ groups['kubeadm-master'][01] }}"
+  delegate_to: "{{ groups['kubeadm_master'][0] }}"
   run_once: true
 
 # Read the join script from master
 - name: Slurp join script from master
   slurp:
     src: /tmp/kubeadm_join.sh
-  delegate_to: "{{ groups['master'][0] }}"
+  delegate_to: "{{ groups['kubeadm_master'][0] }}"
   run_once: true
   register: join_slurp
 
@@ -23,22 +23,25 @@
 
 # Quick kubeadm check (doesn't affect join)
 - name: Check if kubeadm is installed
-  shell: kubeadm version --client
+  command: kubeadm version
   register: kubeadm_check
   failed_when: false
   changed_when: false
 
+# Check if worker has already joined
+- name: Check if worker has already joined
+  stat:
+    path: /etc/kubernetes/kubelet.conf
+  register: worker_joined
+
 # Join worker to cluster
 - name: Join the worker node to the cluster
-  shell: |
-    {{ join_cmd }}
-  args:
-    executable: /bin/bash
+  command: "{{ join_cmd }}"
   register: join_result
-  ignore_errors: true
+  when: not worker_joined.stat.exists
 
 # Print join result (for debugging)
 - name: Show join command result
   debug:
     var: join_result.stdout_lines
-
+  when: join_result is defined

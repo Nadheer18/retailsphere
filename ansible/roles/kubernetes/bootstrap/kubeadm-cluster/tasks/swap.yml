@@ -1,0 +1,4 @@
+---
+- name: Disable swap
+  command: swapoff -a
+  ignore_errors: true
