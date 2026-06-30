@@ -1,0 +1,11 @@
+---
+nginx_site_name: ecommerce
+
+domain_name: nadheerkv.in
+
+domain_aliases:
+  - www.nadheerkv.in
+
+ingress_loadbalancer_ip: 10.0.1.200
+
+ingress_port: 80

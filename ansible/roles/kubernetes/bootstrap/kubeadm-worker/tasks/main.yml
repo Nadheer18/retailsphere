@@ -44,4 +44,5 @@
 - name: Show join command result
   debug:
     var: join_result.stdout_lines
-  when: join_result is defined
+  when:
+    - join_result is defined

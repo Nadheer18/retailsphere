@@ -1,0 +1,36 @@
+---
+- name: Wait for Ingress controller Service
+  command:
+    argv:
+      - kubectl
+      - get
+      - svc
+      - -n
+      - "{{ ingress_namespace }}"
+  environment:
+    KUBECONFIG: /etc/kubernetes/admin.conf
+  register: ingress_service
+  changed_when: false
+
+- name: Show Ingress Services
+  debug:
+    var: ingress_service.stdout_lines
+
+- name: Verify Ingress Pods
+  command:
+    argv:
+      - kubectl
+      - get
+      - pods
+      - -n
+      - "{{ ingress_namespace }}"
+      - -o
+      - wide
+  environment:
+    KUBECONFIG: /etc/kubernetes/admin.conf
+  register: ingress_pods
+  changed_when: false
+
+- name: Show Ingress Pods
+  debug:
+    var: ingress_pods.stdout_lines

@@ -1,3 +1,4 @@
+## Cluster bootstrap only
 ---
 - name: Prepare all nodes (common)
   hosts: kubeadm_master
@@ -16,12 +17,6 @@
   become: yes
   roles:
     - kubeadm-master
-
-- name: Install MetalLB
-  hosts: kubeadm_master
-  become: yes
-  roles:
-    - metallb
 
 - name: Join worker nodes
   hosts: kubeadm_worker
