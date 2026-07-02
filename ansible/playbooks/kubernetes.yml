@@ -17,7 +17,7 @@
     - ingress-nginx
 
 - name: Configure Nginx Reverse Proxy
-  hosts: bastion
+  hosts: kubeadm_master
   become: yes
   tags:
     - nginx
