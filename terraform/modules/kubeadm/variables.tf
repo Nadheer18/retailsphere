@@ -22,5 +22,5 @@ variable "enable_kubeadm_worker" {
 
 variable "worker_count" {
   type    = number
-  default = 3 # Default to 2 worker nodes, can be adjusted as needed. If need more, set to the desired number. example: 3 for 3 worker nodes.
+  default = 1 # Default to 2 worker nodes, can be adjusted as needed. If need more, set to the desired number. example: 3 for 3 worker nodes.
 }

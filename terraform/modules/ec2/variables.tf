@@ -56,5 +56,5 @@ variable "enable_developer" {
 
 variable "developer_count" {
   type    = number
-  default = 3 # Default to 3 developer nodes, can be adjusted as needed.if need more, set to the desired number.example: 3 for 3 developer nodes.
+  default = 1 # Default to 3 developer nodes, can be adjusted as needed.if need more, set to the desired number.example: 3 for 3 developer nodes.
 }

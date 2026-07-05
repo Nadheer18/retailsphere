@@ -4,15 +4,11 @@ output "public_ips" {
     infra   = module.ec2.infra_public_ip
     developer = {
       developer-01 = module.ec2.developer_public_ips[0]
-      developer-02 = module.ec2.developer_public_ips[1]
-      developer-03 = module.ec2.developer_public_ips[2]
     }
     bastion = module.ec2.bastion_public_ip
     kubeadm_master = module.kubeadm.kubeadm_master_public_ip
     kubeadm_workers = {
       worker-01 = module.kubeadm.kubeadm_worker_public_ips[0]
-      worker-02 = module.kubeadm.kubeadm_worker_public_ips[1]
-      worker-03 = module.kubeadm.kubeadm_worker_public_ips[2]
     }
   }
 }
@@ -23,15 +19,11 @@ output "private_ips" {
     infra   = module.ec2.infra_private_ip
     developer = { 
       developer-01 = module.ec2.developer_private_ips[0]
-      developer-02 = module.ec2.developer_private_ips[1]
-      developer-03 = module.ec2.developer_private_ips[2]
     }
     bastion = module.ec2.bastion_private_ip
     kubeadm_master = module.kubeadm.kubeadm_master_private_ip
     kubeadm_workers = {
       worker-01 = module.kubeadm.kubeadm_worker_private_ips[0]
-      worker-02 = module.kubeadm.kubeadm_worker_private_ips[1]
-      worker-03 = module.kubeadm.kubeadm_worker_private_ips[2]
     }
   }
 }
@@ -47,14 +39,10 @@ output "ssh_commands" {
     bastion = module.ec2.ssh_command.bastion
     developer = { 
       developer-01 = module.ec2.ssh_command.developer[0]
-      developer-02 = module.ec2.ssh_command.developer[1]
-      developer-03 = module.ec2.ssh_command.developer[2]
     }
     kubeadm_master = module.kubeadm.kubeadm_master_ssh_command.master
     kubeadm_workers = {
       worker-01 = module.kubeadm.kubeadm_master_ssh_command.worker[0]
-      worker-02 = module.kubeadm.kubeadm_master_ssh_command.worker[1]
-      worker-03 = module.kubeadm.kubeadm_master_ssh_command.worker[2]
     }
   }
 }
@@ -65,13 +53,9 @@ output "kubeadm_cluster_info" {
     master_private_ip = module.kubeadm.kubeadm_master_private_ip
     worker_public_ips = {
       worker-01 = module.kubeadm.kubeadm_worker_public_ips[0]
-      worker-02 = module.kubeadm.kubeadm_worker_public_ips[1]
-      worker-03 = module.kubeadm.kubeadm_worker_public_ips[2]
     }
     worker_private_ips = {
       worker-01 = module.kubeadm.kubeadm_worker_private_ips[0]
-      worker-02 = module.kubeadm.kubeadm_worker_private_ips[1]
-      worker-03 = module.kubeadm.kubeadm_worker_private_ips[2]
     }
   }
 }
@@ -80,13 +64,9 @@ output "developer_info" {
   value = {
     developer_public_ips = {
       developer-01 = module.ec2.developer_public_ips[0]
-      developer-02 = module.ec2.developer_public_ips[1]
-      developer-03 = module.ec2.developer_public_ips[2]
     }
     developer_private_ips = {
       developer-01 = module.ec2.developer_private_ips[0]
-      developer-02 = module.ec2.developer_private_ips[1]
-      developer-03 = module.ec2.developer_private_ips[2]
     }
   }
 }
