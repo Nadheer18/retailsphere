@@ -6,8 +6,8 @@ mysql:
   database: retailsphere
 
 backend:
-  image: nadheer/retailsphere-backend:v1
-  replicas: 3
+  image: nadheer/retailsphere-backend:phase10
+  replicas: 1
 
 service:
   type: ClusterIP
