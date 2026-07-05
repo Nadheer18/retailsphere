@@ -1,0 +1,184 @@
+---
+# Source: retailsphere/templates/secret.yaml
+apiVersion: v1
+kind: Secret
+metadata:
+  name: mysql-secret
+type: Opaque
+
+stringData:
+  MYSQL_ROOT_PASSWORD: root123
+---
+# Source: retailsphere/templates/configmap.yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: backend-config
+
+data:
+  MYSQL_DATABASE: retailsphere
+---
+# Source: retailsphere/templates/backend-service.yaml
+apiVersion: v1
+kind: Service
+
+metadata:
+  name: backend
+
+spec:
+  type: ClusterIP
+
+  ports:
+  - port: 8080
+    targetPort: 8080
+
+  selector:
+    app: backend
+---
+# Source: retailsphere/templates/mysql-service.yaml
+apiVersion: v1
+kind: Service
+
+metadata:
+  name: mysql
+
+spec:
+  ports:
+  - port: 3306
+
+  selector:
+    app: mysql
+---
+# Source: retailsphere/templates/backend-deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+
+metadata:
+  name: backend
+
+spec:
+  replicas: 3
+
+  selector:
+    matchLabels:
+      app: backend
+
+  template:
+    metadata:
+      labels:
+        app: backend
+
+    spec:
+      containers:
+      - name: backend
+
+        image: nadheer/retailsphere-backend:v1
+
+        ports:
+        - containerPort: 8080
+
+        env:
+        - name: SPRING_DATASOURCE_URL
+          value: jdbc:mysql://mysql:3306/retailsphere
+
+        - name: SPRING_DATASOURCE_USERNAME
+          value: root
+
+        - name: SPRING_DATASOURCE_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: mysql-secret
+              key: MYSQL_ROOT_PASSWORD
+
+        - name: SPRING_DATASOURCE_USERNAME
+          value: retailsphere
+
+        - name: SPRING_DATASOURCE_PASSWORD
+          value: retailsphere123
+---
+# Source: retailsphere/templates/mysql-statefulset.yaml
+apiVersion: apps/v1
+kind: StatefulSet
+
+metadata:
+  name: mysql
+
+spec:
+  serviceName: mysql
+
+  replicas: 1
+
+  selector:
+    matchLabels:
+      app: mysql
+
+  template:
+    metadata:
+      labels:
+        app: mysql
+
+    spec:
+      containers:
+      - name: mysql
+
+        image: mysql:8.0
+
+        env:
+        - name: MYSQL_ROOT_PASSWORD
+          valueFrom:
+            secretKeyRef:
+            name: mysql-secret
+            key: MYSQL_ROOT_PASSWORD
+
+        - name: MYSQL_DATABASE
+          value: retailsphere
+
+        - name: MYSQL_USER
+          value: retailsphere
+
+        - name: MYSQL_PASSWORD
+          value: retailsphere123
+
+        ports:
+        - containerPort: 3306
+
+        volumeMounts:
+        - name: mysql-storage
+          mountPath: /var/lib/mysql
+
+  volumeClaimTemplates:
+  - metadata:
+      name: mysql-storage
+
+    spec:
+      accessModes:
+      - ReadWriteOnce
+
+      resources:
+        requests:
+          storage: 5Gi
+---
+# Source: retailsphere/templates/ingress.yaml
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+
+metadata:
+  name: retailsphere-ingress
+
+spec:
+  ingressClassName: nginx
+
+  rules:
+  - host: retailsphere.local
+
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+
+        backend:
+          service:
+            name: backend
+
+            port:
+              number: 8080
