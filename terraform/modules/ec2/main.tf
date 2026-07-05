@@ -25,7 +25,7 @@ resource "aws_instance" "jenkins" {
 
   count = var.enable_jenkins ? 1 : 0
   ami                    = data.aws_ssm_parameter.ubuntu.value
-  instance_type          = "t3.micro" #t3.medium
+  instance_type          = "t3.medium"
   subnet_id              = var.public_subnet_id
   vpc_security_group_ids = [var.jenkins_sg_id]
   key_name               = var.key_name

@@ -8,7 +8,7 @@ resource "aws_instance" "kubeadm_master" {
 
   count = var.enable_kubeadm_master ? 1 : 0 # Assuming you have a variable for master count if needed
   ami                    = data.aws_ssm_parameter.ubuntu.value
-  instance_type          = "t3.micro"
+  instance_type          = "t3.medium"
   subnet_id              = var.public_subnet_id
   vpc_security_group_ids = [var.kubeadm_cluster_sg_id]
   key_name               = var.key_name
@@ -25,7 +25,7 @@ resource "aws_instance" "kubeadm_worker" {
 
   count = var.enable_kubeadm_worker ? var.worker_count : 0 # Assuming you have a variable for worker count
   ami                    = data.aws_ssm_parameter.ubuntu.value
-  instance_type          = "t3.micro"
+  instance_type          = "t3.medium"
   subnet_id              = var.public_subnet_id
   vpc_security_group_ids = [var.kubeadm_cluster_sg_id]
   key_name               = var.key_name
