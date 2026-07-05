@@ -1,0 +1,22 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: retailsphere-ingress
+  namespace: retailsphere
+
+spec:
+  ingressClassName: nginx
+
+  rules:
+  - host: retailsphere.local
+
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+
+        backend:
+          service:
+            name: retailsphere-backend
+            port:
+              number: 80
