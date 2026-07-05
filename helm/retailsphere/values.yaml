@@ -6,7 +6,7 @@ mysql:
   database: retailsphere
 
 backend:
-  image: nadheer/retailsphere-backend:phase10
+  image: nadheer/retailsphere-backend:phase10.01
   replicas: 1
 
 service:
