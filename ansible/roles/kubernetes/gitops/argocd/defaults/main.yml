@@ -1,0 +1,8 @@
+---
+argocd_namespace: argocd
+
+argocd_chart_version: "8.3.7"
+
+argocd_release_name: argocd
+
+argocd_service_type: LoadBalancer

@@ -1,0 +1,21 @@
+---
+- name: Get Argo CD pods
+  command: kubectl get pods -n {{ argocd_namespace }}
+  register: argocd_pods
+  changed_when: false
+
+- name: Display Argo CD pods
+  debug:
+    var: argocd_pods.stdout_lines
+
+- name: Get initial admin password
+  shell: >
+    kubectl -n {{ argocd_namespace }}
+    get secret argocd-initial-admin-secret
+    -o jsonpath="{.data.password}" | base64 -d
+  register: argocd_password
+  changed_when: false
+
+- name: Display Argo CD admin password
+  debug:
+    msg: "Initial Argo CD password: {{ argocd_password.stdout }}"

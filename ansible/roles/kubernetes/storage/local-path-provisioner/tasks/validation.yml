@@ -1,0 +1,27 @@
+---
+- name: Verify StorageClasses
+  command: kubectl get storageclass
+  register: storageclasses
+  changed_when: false
+
+- name: Display StorageClasses
+  debug:
+    var: storageclasses.stdout_lines
+
+- name: Verify Local Path Provisioner Pods
+  command: kubectl get pods -n {{ local_path_namespace }}
+  register: local_path_pods
+  changed_when: false
+
+- name: Display Local Path Provisioner Pods
+  debug:
+    var: local_path_pods.stdout_lines
+
+- name: Verify Local Path Provisioner Deployment
+  command: kubectl get deployment -n {{ local_path_namespace }}
+  register: local_path_deployment
+  changed_when: false
+
+- name: Display Local Path Provisioner Deployment
+  debug:
+    var: local_path_deployment.stdout_lines

@@ -1,0 +1,11 @@
+---
+- name: Check if Local Path Storage namespace exists
+  command: kubectl get namespace {{ local_path_namespace }}
+  register: local_path_ns
+  failed_when: false
+  changed_when: false
+
+- name: Install Local Path Provisioner
+  command: >
+    kubectl apply -f {{ local_path_manifest }}
+  when: local_path_ns.rc != 0

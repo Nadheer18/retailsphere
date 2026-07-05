@@ -23,3 +23,27 @@
     - nginx
   roles:
     - nginx-reverse-proxy
+
+- name: Install Argo CD
+  hosts: kubeadm_master
+  become: yes
+  tags:
+    - argocd 
+  roles:
+    - argocd
+
+- name: Install Local Path Provisioner
+  hosts: kubeadm_master
+  become: yes
+  tags:
+    - local Path
+  roles:
+    - local-path-provisioner
+
+- name: Install Monitoring Stack
+  hosts: kubeadm_master
+  become: yes
+  tags:
+    - monitoring
+  roles:
+    - monitoring-stack
