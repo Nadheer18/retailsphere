@@ -1,0 +1,12 @@
+---
+- name: Wait for Local Path Provisioner deployment
+  command: >
+    kubectl rollout status deployment
+    local-path-provisioner
+    -n {{ local_path_namespace }}
+    --timeout=300s
+
+- name: Make local-path the default StorageClass
+  command: >
+    kubectl patch storageclass {{ local_path_storageclass }}
+    -p '{"metadata":{"annotations":{"storageclass.kubernetes.io/is-default-class":"true"}}}'

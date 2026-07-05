@@ -1,0 +1,41 @@
+---
+- name: Check if monitoring namespace exists
+  command: kubectl get namespace {{ monitoring_namespace }}
+  register: monitoring_ns
+  failed_when: false
+  changed_when: false
+
+- name: Create monitoring namespace
+  command: kubectl create namespace {{ monitoring_namespace }}
+  when: monitoring_ns.rc != 0
+
+- name: Check if Prometheus Helm repository exists
+  shell: helm repo list | grep "^prometheus-community"
+  register: helm_repo
+  failed_when: false
+  changed_when: false
+
+- name: Add Prometheus Helm repository
+  command: >
+    helm repo add prometheus-community
+    https://prometheus-community.github.io/helm-charts
+  when: helm_repo.rc != 0
+
+- name: Update Helm repositories
+  command: helm repo update
+  changed_when: false
+
+- name: Generate monitoring values file
+  template:
+    src: values.yaml.j2
+    dest: "{{ values_file }}"
+    mode: "0644"
+
+- name: Install or upgrade Monitoring Stack
+  command: >
+    helm upgrade --install
+    {{ monitoring_release_name }}
+    {{ monitoring_chart_name }}
+    --namespace {{ monitoring_namespace }}
+    --version {{ monitoring_chart_version }}
+    --values {{ values_file }}
