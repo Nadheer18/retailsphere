@@ -1,0 +1,6 @@
+---
+- import_tasks: packages.yml
+- import_tasks: awscli.yml
+- import_tasks: terraform.yml
+- import_tasks: kubectl.yml
+- import_tasks: helm.yml

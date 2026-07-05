@@ -1,0 +1,32 @@
+#Add Kubernetes repository
+#Install Kubernetes packages
+#Hold packages
+#apt-mark hold
+
+---
+- name: Add Kubernetes apt repo keyring
+  shell: |
+    curl -fsSL https://pkgs.k8s.io/core:/stable:/v1.29/deb/Release.key | gpg --dearmor -o /etc/apt/keyrings/kubernetes-apt-keyring.gpg
+    echo "deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v{{ kubernetes_version }}/deb/ /" | tee /etc/apt/sources.list.d/kubernetes.list
+    apt-get update -y
+  args:
+    creates: /etc/apt/sources.list.d/kubernetes.list
+
+- name: Install kubelet kubeadm kubectl
+  apt:
+    name: "{{ kube_packages }}"
+    state: present
+    update_cache: yes
+
+- name: Hold kube packages
+  apt:
+    name: "{{ kube_packages }}"
+    state: present
+    update_cache: no
+  register: kube_hold
+  changed_when: false
+
+- name: Mark kube packages on hold
+  shell: apt-mark hold {{ kube_packages | join(' ') }}
+  when: "'hold' not in kube_hold"
+  ignore_errors: true

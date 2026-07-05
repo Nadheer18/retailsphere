@@ -1,0 +1,31 @@
+---
+- name: Check if Ingress NGINX namespace exists
+  command: kubectl get namespace {{ ingress_namespace }}
+  environment:
+    KUBECONFIG: /etc/kubernetes/admin.conf
+  register: ingress_ns
+  changed_when: false
+  failed_when: false
+
+- name: Install Ingress NGINX
+  command:
+    argv:
+      - kubectl
+      - apply
+      - -f
+      - "{{ ingress_manifest }}"
+  environment:
+    KUBECONFIG: /etc/kubernetes/admin.conf
+  when: ingress_ns.rc != 0
+
+- name: Wait for controller deployment
+  command:
+    argv:
+      - kubectl
+      - wait
+      - --namespace={{ ingress_namespace }}
+      - --for=condition=Available
+      - deployment/ingress-nginx-controller
+      - --timeout=300s
+  environment:
+    KUBECONFIG: /etc/kubernetes/admin.conf

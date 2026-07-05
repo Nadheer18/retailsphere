@@ -1,0 +1,12 @@
+---
+- name: Verify kubeadm installation
+  command: kubeadm version
+  changed_when: false
+
+- name: Verify kubelet installation
+  command: kubelet --version
+  changed_when: false
+
+- name: Verify kubectl installation
+  command: kubectl version --client
+  changed_when: false

@@ -1,0 +1,9 @@
+---
+- name: Install bastion packages
+  apt:
+    name:
+      - git
+      - curl
+      - vim
+      - htop
+    state: present

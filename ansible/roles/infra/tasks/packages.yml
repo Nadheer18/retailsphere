@@ -1,0 +1,6 @@
+---
+- name: Install prerequisite packages
+  apt:
+    name: "{{ infra_packages }}"
+    state: present
+    update_cache: yes
