@@ -1,22 +1,12 @@
 Our RetailSphere project has now reached the stage where many real companies begin adopting GitOps practices.
 
-
-
-##### **RetailSphere Enterprise DevOps Project**
-
-
+# **RetailSphere Enterprise DevOps Project**
 
 **Completed**
 
-
-
 ✅ Phase 1 – Infrastructure Foundation
 
-
-
 ✅ Phase 2 – Terraform Infrastructure
-
-
 
 ✅ Phase 3 – Ansible Configuration Management
 
@@ -42,7 +32,7 @@ Our RetailSphere project has now reached the stage where many real companies beg
 
 
 
-##### **Phase 9 – GitOps with ArgoCD**
+# **Phase 9 – GitOps with ArgoCD**
 
 
 
@@ -64,19 +54,19 @@ Instead of Jenkins deploying directly to Kubernetes:
 
 Developer
 
-\&#x20;   ↓
+   ↓
 
 GitHub
 
-\&#x20;   ↓
+   ↓
 
 Jenkins
 
-\&#x20;   ↓
+   ↓
 
 kubectl apply
 
-\&#x20;   ↓
+   ↓
 
 Kubernetes
 
@@ -92,15 +82,15 @@ Kubernetes
 
 Developer
 
-\&#x20;   ↓
+   ↓
 
 GitHub
 
-\&#x20;   ↓
+   ↓
 
 ArgoCD
 
-\&#x20;   ↓
+   ↓
 
 Kubernetes
 
@@ -112,7 +102,7 @@ ArgoCD continuously monitors Git repositories and automatically synchronizes Kub
 
 
 
-##### **Phase 9 Architecture**
+# **Phase 9 Architecture**
 
 
 
@@ -130,41 +120,37 @@ GitHub Repository
 
 └── helm/
 
-\&#x20;     └── retailsphere
+     └── retailsphere
 
-\&#x20;           ├── Chart.yaml
+           ├── Chart.yaml
 
-\&#x20;           ├── values.yaml
+           ├── values.yaml
 
-\&#x20;           └── templates/
-
-
-
-\&#x20;                   ↓
+           └── templates/
 
 
 
-\&#x20;              ArgoCD
+                   ↓
 
 
 
-\&#x20;                   ↓
+              ArgoCD
 
 
 
-\&#x20;           Kubernetes Cluster
+                   ↓
+
+
+
+           Kubernetes Cluster
 
 ```
 
 
 
-##### **Phase 9 Deliverables**
+# **Phase 9 Deliverables**
 
-
-
-###### **Phase 9.1**
-
-
+## **Phase 9.1**
 
 Install ArgoCD
 
