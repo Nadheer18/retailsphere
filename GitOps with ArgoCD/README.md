@@ -20,6 +20,8 @@ Our RetailSphere project has now reached the stage where many real companies beg
 
 ✅ Phase 8 – Helm Packaging \& Deployment
 
+---
+
 # **Phase 9 – GitOps with ArgoCD**
 
 **Objective**
@@ -56,6 +58,8 @@ Kubernete
 
 ArgoCD continuously monitors Git repositories and automatically synchronizes Kubernetes resources when changes are detected.
 
+---
+
 # **Phase 9 Architecture**
 
 ```
@@ -75,31 +79,35 @@ GitHub Repository
            Kubernetes Cluster
 ```
 
+---
+
 # **Phase 9 Deliverables**
 
-## **Phase 9.1**
+### **Phase 9.1**
 Install ArgoCD
 
-## **Phase 9.2**
+### **Phase 9.2**
 Expose ArgoCD UI
 
-## **Phase 9.3**
+### **Phase 9.3**
 Login to ArgoCD
 
-## **Phase 9.4**
+### **Phase 9.4**
 Create GitOps Application
 
-## **Phase 9.5**
+### **Phase 9.5**
 Deploy RetailSphere via ArgoCD
 
-## **Phase 9.6**
+### **Phase 9.6**
 Auto Sync Configuration
 
-## **Phase 9.7**
+### **Phase 9.7**
 GitOps Validation
 
-## **Phase 9.8**
+### **Phase 9.8**
 Documentation
+
+---
 
 ## **Step 1 — Create Namespace**
 
@@ -125,6 +133,8 @@ kube-system
 
 ```
 
+---
+
 ## **Step 2 — Install ArgoCD**
 
 ```bash
@@ -141,13 +151,11 @@ kubectl get pods -n argocd
 Expected:
 
 ```bash
-
 argocd-server
 argocd-repo-server
 argocd-application-controller
 argocd-dex-server
 argocd-redis
-
 ```
 
 All should become:
@@ -155,6 +163,8 @@ All should become:
 ```bash
 Running
 ```
+
+---
 
 ## **Step 3 — Verify Installation**
 
@@ -170,6 +180,8 @@ services
 deployments
 replicasets
 ```
+
+---
 
 ## **Step 4 — Expose ArgoCD UI**
 
@@ -208,6 +220,8 @@ argocd-server NodePort
 443:30443/TCP
 ```
 
+---
+
 ## **Step 5 — Get Initial Admin Password**
 
 ```bash
@@ -217,6 +231,8 @@ kubectl get secret argocd-initial-admin-secret \
 ```
 
 Save the password.
+
+---
 
 ## **Step 6 — Access ArgoCD**
 
@@ -244,7 +260,9 @@ Password:
 <password_from_secret>
 ```
 
-##### **Step 7 — Verify GitHub Repository**
+---
+
+## **Step 7 — Verify GitHub Repository**
 
 Current repository:
 
@@ -258,6 +276,8 @@ ArgoCD will pull Helm chart directly from:
 helm/retailsphere
 ```
 
+---
+
 ## **Step 8 — Create GitOps Application**
 
 Later from UI:
@@ -269,29 +289,21 @@ Project:
 ```default```
 
 Sync Policy:
-```
-Manual
-```
+```Manual```
 
 Repository URL:
-```
-https://github.com/Nadheer18/retailsphere.git
-```
+```https://github.com/Nadheer18/retailsphere.git```
 
 Path:
-```
-helm/retailsphere
-```
+```helm/retailsphere```
 
 Cluster URL:
-```
-https://kubernetes.default.svc
-```
+```https://kubernetes.default.svc```
 
 Namespace:
-```
-retailsphere
-```
+```retailsphere```
+
+---
 
 ## **Phase 9 Goal**
 
@@ -307,6 +319,8 @@ Kubernetes
 
 A git push to your Helm chart will automatically update the RetailSphere deployment in Kubernetes.
 
+---
+
 ## **Before moving to Phase 9.2, execute:**
 
 ```
@@ -317,6 +331,8 @@ kubectl apply -n argocd \
 
 kubectl get pods -n argocd -w
 ```
+
+---
 
 
 
