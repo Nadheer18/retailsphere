@@ -10,138 +10,72 @@ Our RetailSphere project has now reached the stage where many real companies beg
 
 ✅ Phase 3 – Ansible Configuration Management
 
-
-
 ✅ Phase 4 – Spring Boot Application Development
-
-
 
 ✅ Phase 5 – Dockerization
 
-
-
 ✅ Phase 6 – Kubernetes Deployment
-
-
 
 ✅ Phase 7 – Jenkins CI/CD
 
-
-
 ✅ Phase 8 – Helm Packaging \& Deployment
-
-
 
 # **Phase 9 – GitOps with ArgoCD**
 
-
-
 **Objective**
-
-
 
 Implement GitOps methodology using Argo CD.
 
 Instead of Jenkins deploying directly to Kubernetes:
 
-
-
 **Current Flow**
 
-
-
 ```
-
 Developer
-
    ↓
-
 GitHub
-
    ↓
-
 Jenkins
-
    ↓
-
 kubectl apply
-
    ↓
-
 Kubernetes
-
 ```
-
-
 
 **GitOps Flow**
 
-
-
 ```
 
 Developer
-
    ↓
-
 GitHub
-
    ↓
-
 ArgoCD
-
    ↓
-
 Kubernetes
 
 ```
 
-
-
 ArgoCD continuously monitors Git repositories and automatically synchronizes Kubernetes resources when changes are detected.
 
-
-
 # **Phase 9 Architecture**
-
-
 
 ```
 
 GitHub Repository
 
 │
-
 ├── app/
-
 ├── terraform/
-
 ├── ansible/
-
 └── helm/
-
      └── retailsphere
-
            ├── Chart.yaml
-
            ├── values.yaml
-
            └── templates/
-
-
-
                    ↓
-
-
-
-              ArgoCD
-
-
-
+                 ArgoCD
                    ↓
-
-
-
            Kubernetes Cluster
 
 ```
