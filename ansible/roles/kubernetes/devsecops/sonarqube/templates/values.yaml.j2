@@ -1,0 +1,39 @@
+
+community:
+  enabled: true
+
+monitoringPasscodeSecretName: sonarqube-monitoring
+monitoringPasscodeSecretKey: monitoring-passcode
+
+replicaCount: 1
+
+jdbcOverwrite:
+  enabled: true
+  jdbcUrl: "jdbc:postgresql://sonarqube-postgresql:5432/sonarqube"
+  jdbcUsername: "sonar"
+  jdbcSecretName: "sonarqube-postgresql"
+  jdbcSecretPasswordKey: "POSTGRES_PASSWORD"
+
+ingress:
+  enabled: true
+  ingressClassName: nginx
+
+  hosts:
+    - name: sonarqube.local
+      path: /
+
+  annotations: {}
+
+persistence:
+  enabled: true
+  storageClass: local-path
+  size: 10Gi
+
+resources:
+  requests:
+    cpu: "500m"
+    memory: "2Gi"
+
+  limits:
+    cpu: "2"
+    memory: "4Gi"

@@ -47,3 +47,12 @@
     - monitoring
   roles:
     - monitoring-stack
+
+- name: Install SonarQube
+  hosts: kubeadm_master
+  become: yes
+  tags:
+    - sonarqube
+  roles:
+    - sonarqube
+

@@ -1,0 +1,26 @@
+---
+sonarqube_namespace: sonarqube
+
+sonarqube_release_name: sonarqube
+
+sonarqube_chart_version: "2026.4.1"
+
+sonarqube_chart_repo: "https://SonarSource.github.io/helm-chart-sonarqube"
+
+sonarqube_chart_name: "sonarqube/sonarqube"
+
+sonarqube_values_file: "/tmp/sonarqube-values.yaml"
+
+sonarqube_postgresql_file: "/tmp/sonarqube-postgresql.yaml"
+
+sonarqube_monitoring_secret_name: "sonarqube-monitoring"
+
+sonarqube_monitoring_passcode: "CHANGE_ME"
+
+sonarqube_postgresql_secret_name: "sonarqube-postgresql"
+
+sonarqube_postgresql_user: "sonar"
+
+sonarqube_postgresql_password: "CHANGE_ME"
+
+sonarqube_postgresql_database: "sonarqube"
