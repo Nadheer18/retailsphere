@@ -18,19 +18,19 @@ spec:
 
     spec:
       containers:
-      - name: backend
+        - name: backend
 
-        image: {{ .Values.backend.image }}
+          image: {{ .Values.backend.image }}
 
-        ports:
-        - containerPort: 8080
+          ports:
+            - containerPort: 8080
 
-        env:
-        - name: SPRING_DATASOURCE_URL
-          value: jdbc:mysql://mysql:3306/{{ .Values.mysql.database }}
+          env:
+            - name: SPRING_DATASOURCE_URL
+              value: jdbc:mysql://mysql:3306/{{ .Values.mysql.database }}
 
-        - name: SPRING_DATASOURCE_USERNAME
-          value: retailsphere
+            - name: SPRING_DATASOURCE_USERNAME
+              value: {{ .Values.mysql.username | quote }}
 
-        - name: SPRING_DATASOURCE_PASSWORD
-          value: retailsphere123
+            - name: SPRING_DATASOURCE_PASSWORD
+              value: {{ .Values.mysql.password | quote }}

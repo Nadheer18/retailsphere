@@ -2,18 +2,35 @@ namespace: retailsphere
 
 mysql:
   image: mysql:8.0
+
   rootPassword: root123
+
   database: retailsphere
 
+  username: retailsphere
+
+  password: retailsphere123
+
+  storage: 5Gi
+
+  storageClass: ebs-sc
+
+  hostPath:
+    enabled: false
+
 backend:
-  image: nadheer/retailsphere-backend:phase11.3
+  image: nadheer/retailsphere-backend:14
+
   replicas: 1
 
 service:
   type: ClusterIP
+
   port: 8080
 
 ingress:
   enabled: true
-  className: nginx
-  host: retailsphere.local
+
+  className: alb
+
+  host: retailsphere-staging.local
