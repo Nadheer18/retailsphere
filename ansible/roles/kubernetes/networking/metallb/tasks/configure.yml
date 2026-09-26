@@ -1,0 +1,57 @@
+---
+# Deploy MetalLB configuration
+
+- name: Create temporary directory for MetalLB manifests
+  file:
+    path: /tmp/metallb
+    state: directory
+    mode: "0755"
+
+- name: Generate IPAddressPool manifest
+  template:
+    src: ipaddresspool.yml.j2
+    dest: /tmp/metallb/ipaddresspool.yml
+    mode: "0644"
+
+- name: Generate L2Advertisement manifest
+  template:
+    src: l2advertisement.yml.j2
+    dest: /tmp/metallb/l2advertisement.yml
+    mode: "0644"
+
+- name: Apply IPAddressPool
+  command:
+    argv:
+      - kubectl
+      - apply
+      - -f
+      - /tmp/metallb/ipaddresspool.yml
+  environment:
+    KUBECONFIG: /etc/kubernetes/admin.conf
+
+- name: Apply L2Advertisement
+  command:
+    argv:
+      - kubectl
+      - apply
+      - -f
+      - /tmp/metallb/l2advertisement.yml
+  environment:
+    KUBECONFIG: /etc/kubernetes/admin.conf
+
+- name: Verify MetalLB pods
+  command:
+    argv:
+      - kubectl
+      - get
+      - pods
+      - -n
+      - "{{ metallb_namespace }}"
+  environment:
+    KUBECONFIG: /etc/kubernetes/admin.conf
+  register: metallb_pods
+  changed_when: false
+
+- name: Show MetalLB pod status
+  debug:
+    var: metallb_pods.stdout_lines

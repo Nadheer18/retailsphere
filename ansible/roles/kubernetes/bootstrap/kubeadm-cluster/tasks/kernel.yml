@@ -1,0 +1,31 @@
+#Load kernel modules
+#Ensure modules loaded now
+#Configure sysctl
+#Reload sysctl
+
+---
+- name: Configure Kubernetes kernel modules
+  copy:
+    dest: /etc/modules-load.d/k8s.conf
+    content: |
+      {% for module in kernel_modules %}
+      {{ module }}
+      {% endfor %}
+    mode: '0644'
+
+- name: Ensure modules loaded now
+  shell: |
+    modprobe overlay || true
+    modprobe br_netfilter || true
+
+- name: Configure Kubernetes sysctl parameters
+  copy:
+    dest: /etc/sysctl.d/99-k8s.conf
+    content: |
+      {% for key, value in kubernetes_sysctl.items() %}
+      {{ key }} = {{ value }}
+      {% endfor %}
+    mode: '0644'
+
+- name: Reload sysctl
+  command: sysctl --system

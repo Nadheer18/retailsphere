@@ -82,6 +82,14 @@ resource "aws_security_group" "developer" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
+  ingress {
+    description = "Java port"    
+    from_port   = 8080
+    to_port     = 8080
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
   egress {
     from_port   = 0
     to_port     = 0
@@ -106,7 +114,7 @@ resource "aws_security_group" "bastion" {
     from_port   = 22
     to_port     = 22
     protocol    = "tcp"
-    cidr_blocks = ["152.57.28.14/32"]
+    cidr_blocks = ["0.0.0.0/0"]
   }
 
   egress {
@@ -180,6 +188,22 @@ resource "aws_security_group" "kubeadm_cluster" {
     description = "HTTPS"
     from_port   = 443
     to_port     = 443
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  ingress {
+    description = "prometheus"
+    from_port   = 9090
+    to_port     = 9090
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+    ingress {
+    description = "grafana"
+    from_port   = 3000
+    to_port     = 3000
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }

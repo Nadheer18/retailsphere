@@ -1,0 +1,46 @@
+---
+# Install MetalLB
+
+- name: Check if MetalLB namespace exists
+  command: kubectl get namespace {{ metallb_namespace }}
+  environment:
+    KUBECONFIG: /etc/kubernetes/admin.conf
+  register: metallb_namespace_check
+  changed_when: false
+  failed_when: false
+
+- name: Install MetalLB
+  command:
+    argv:
+      - kubectl
+      - apply
+      - -f
+      - "{{ metallb_manifest }}"
+  environment:
+    KUBECONFIG: /etc/kubernetes/admin.conf
+  when: metallb_namespace_check.rc != 0
+
+- name: Wait for MetalLB controller deployment
+  command:
+    argv:
+      - kubectl
+      - wait
+      - --namespace={{ metallb_namespace }}
+      - --for=condition=Available
+      - deployment/controller
+      - --timeout=300s
+  environment:
+    KUBECONFIG: /etc/kubernetes/admin.conf
+
+- name: Wait for MetalLB speaker DaemonSet rollout
+  command:
+    argv:
+      - kubectl
+      - rollout
+      - status
+      - daemonset/speaker
+      - -n
+      - "{{ metallb_namespace }}"
+      - --timeout=300s
+  environment:
+    KUBECONFIG: /etc/kubernetes/admin.conf

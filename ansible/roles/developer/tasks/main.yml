@@ -16,3 +16,15 @@
     name: ubuntu
     groups: docker
     append: yes
+
+- name: Create developer users
+  user:
+    name: "{{ item }}"
+    state: present
+    create_home: yes
+    shell: /bin/bash
+    groups: sudo,docker
+    append: yes
+  loop:
+    - dev1
+    - dev2

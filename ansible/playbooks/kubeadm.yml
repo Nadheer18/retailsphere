@@ -1,0 +1,33 @@
+## Cluster bootstrap only
+---
+- name: Prepare all nodes (common)
+  hosts: kubeadm_master
+  become: yes
+  roles:
+    - common
+    - kubeadm-cluster
+
+- name: Prepare all nodes (common)
+  hosts: kubeadm_worker
+  become: yes
+  roles:
+    - common
+    - kubeadm-cluster
+
+- name: Initialize Kubernetes master
+  hosts: kubeadm_master
+  become: yes
+  roles:
+    - kubeadm-master
+
+- name: Join worker nodes
+  hosts: kubeadm_worker
+  become: yes
+  roles:
+    - kubeadm-worker
+
+- name: Install Helm
+  hosts: kubeadm_master
+  become: yes
+  roles:
+    - helm
