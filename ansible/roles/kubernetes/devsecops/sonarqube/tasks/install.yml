@@ -1,0 +1,90 @@
+---
+- name: Check if sonarqube namespace exists
+  command: kubectl get namespace {{ sonarqube_namespace }}
+  register: sonarqube_ns
+  failed_when: false
+  changed_when: false
+
+- name: Create sonarqube namespace
+  command: kubectl create namespace {{ sonarqube_namespace }}
+  when: sonarqube_ns.rc != 0
+
+- name: Check if sonarqube Helm repository exists
+  shell: helm repo list | grep "^sonarqube"
+  register: helm_repo
+  failed_when: false
+  changed_when: false
+
+- name: Add sonarqube Helm repository
+  command: >
+    helm repo add sonarqube
+    https://SonarSource.github.io/helm-chart-sonarqube
+  when: helm_repo.rc != 0
+
+- name: Update Helm repositories
+  command: helm repo update
+  changed_when: false
+
+- name: Generate sanarqube values file
+  template:
+    src: values.yaml.j2
+    dest: "{{ sonarqube_values_file }}"
+    mode: "0644"
+
+- name: Generate sonarqube-postgresql file
+  template:
+    src: postgresql.yaml.j2
+    dest: "{{ sonarqube_postgresql_file }}"
+    mode: "0644"
+
+- name: Install or upgrade SonarQube Stack
+  command: >
+    helm upgrade --install
+    {{ sonarqube_release_name }}
+    {{ sonarqube_chart_name }}
+    --namespace {{ sonarqube_namespace }}
+    --version {{ sonarqube_chart_version }}
+    --values {{ sonarqube_values_file }}
+
+- name: Apply PostgreSQL Manifest
+  command:
+    argv:
+      - kubectl
+      - apply
+      - -f
+      - /tmp/sonarqube-postgresql.yaml
+  environment:
+    KUBECONFIG: /etc/kubernetes/admin.conf
+
+- name: Create SonarQube monitoring secret
+  kubernetes.core.k8s:
+    state: present
+    kubeconfig: /etc/kubernetes/admin.conf
+    namespace: "{{ sonarqube_namespace }}"
+    definition:
+      apiVersion: v1
+      kind: Secret
+      metadata:
+        name: "{{ sonarqube_monitoring_secret_name }}"
+      type: Opaque
+      stringData:
+        monitoring-passcode: "{{ sonarqube_monitoring_passcode }}"
+  no_log: true
+
+- name: Create SonarQube postgresql secret
+  kubernetes.core.k8s:
+    state: present
+    kubeconfig: /etc/kubernetes/admin.conf
+    namespace: "{{ sonarqube_namespace }}"
+    definition:
+      apiVersion: v1
+      kind: Secret
+      metadata:
+        name: "{{ sonarqube_postgresql_secret_name }}"
+      type: Opaque
+      stringData:
+        POSTGRES_USER: "{{ sonarqube_postgresql_user }}"
+        POSTGRES_PASSWORD: "{{ sonarqube_postgresql_password }}"
+        POSTGRES_DB: "{{ sonarqube_postgresql_database }}"
+  no_log: true
+

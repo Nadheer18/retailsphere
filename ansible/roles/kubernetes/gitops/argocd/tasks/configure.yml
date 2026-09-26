@@ -1,0 +1,21 @@
+---
+- name: Wait for Argo CD server deployment
+  command: >
+    kubectl rollout status deployment
+    argocd-server
+    -n {{ argocd_namespace }}
+    --timeout=300s
+
+- name: Wait for Argo CD repo server
+  command: >
+    kubectl rollout status deployment
+    argocd-repo-server
+    -n {{ argocd_namespace }}
+    --timeout=300s
+
+- name: Wait for Argo CD application controller
+  command: >
+    kubectl rollout status statefulset
+    argocd-application-controller
+    -n {{ argocd_namespace }}
+    --timeout=300s

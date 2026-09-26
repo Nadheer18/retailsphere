@@ -1,0 +1,69 @@
+# ============================================================
+# RetailSphere - SonarQube Community Build
+# ============================================================
+
+# ------------------------------------------------------------
+# SonarQube Edition
+# ------------------------------------------------------------
+community:
+  enabled: true
+
+
+# ------------------------------------------------------------
+# Monitoring / System Passcode
+# ------------------------------------------------------------
+monitoringPasscodeSecretName: sonarqube-monitoring
+monitoringPasscodeSecretKey: monitoring-passcode
+
+
+# ------------------------------------------------------------
+# SonarQube Replicas
+# ------------------------------------------------------------
+replicaCount: 1
+
+
+# ------------------------------------------------------------
+# External PostgreSQL
+# ------------------------------------------------------------
+jdbcOverwrite:
+  enabled: true
+  jdbcUrl: "jdbc:postgresql://sonarqube-postgresql:5432/sonarqube"
+  jdbcUsername: "sonar"
+  jdbcSecretName: "sonarqube-postgresql"
+  jdbcSecretPasswordKey: "POSTGRES_PASSWORD"
+
+
+# ------------------------------------------------------------
+# Ingress
+# ------------------------------------------------------------
+ingress:
+  enabled: true
+  ingressClassName: nginx
+
+  hosts:
+    - name: sonarqube.local
+      path: /
+
+  annotations: {}
+
+
+# ------------------------------------------------------------
+# Persistent Storage
+# ------------------------------------------------------------
+persistence:
+  enabled: true
+  storageClass: local-path
+  size: 10Gi
+
+
+# ------------------------------------------------------------
+# Resources
+# ------------------------------------------------------------
+resources:
+  requests:
+    cpu: "500m"
+    memory: "2Gi"
+
+  limits:
+    cpu: "2"
+    memory: "4Gi"

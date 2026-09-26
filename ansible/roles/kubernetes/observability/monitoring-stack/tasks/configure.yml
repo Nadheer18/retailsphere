@@ -1,0 +1,35 @@
+---
+- name: Wait for Prometheus Operator deployment
+  command: >
+    kubectl rollout status deployment
+    {{ monitoring_release_name }}-kube-prometheus-operator
+    -n {{ monitoring_namespace }}
+    --timeout=300s
+
+- name: Wait for Grafana deployment
+  command: >
+    kubectl rollout status deployment
+    {{ monitoring_release_name }}-grafana
+    -n {{ monitoring_namespace }}
+    --timeout=300s
+
+- name: Wait for kube-state-metrics deployment
+  command: >
+    kubectl rollout status deployment
+    {{ monitoring_release_name }}-kube-state-metrics
+    -n {{ monitoring_namespace }}
+    --timeout=300s
+
+- name: Wait for Alertmanager StatefulSet
+  command: >
+    kubectl rollout status statefulset
+    alertmanager-{{ monitoring_release_name }}-kube-prometheus-alertmanager
+    -n {{ monitoring_namespace }}
+    --timeout=300s
+
+- name: Wait for Prometheus StatefulSet
+  command: >
+    kubectl rollout status statefulset
+    prometheus-{{ monitoring_release_name }}-kube-prometheus-prometheus
+    -n {{ monitoring_namespace }}
+    --timeout=300s

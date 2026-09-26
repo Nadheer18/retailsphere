@@ -1,0 +1,78 @@
+---
+- name: Verify Monitoring Helm release
+  command: helm list -n {{ monitoring_namespace }}
+  register: monitoring_helm
+  changed_when: false
+
+- name: Display Helm releases
+  debug:
+    var: monitoring_helm.stdout_lines
+
+- name: Verify Monitoring Pods
+  command: kubectl get pods -n {{ monitoring_namespace }}
+  register: monitoring_pods
+  changed_when: false
+
+- name: Display Monitoring Pods
+  debug:
+    var: monitoring_pods.stdout_lines
+
+- name: Verify Monitoring Services
+  command: kubectl get svc -n {{ monitoring_namespace }}
+  register: monitoring_services
+  changed_when: false
+
+- name: Display Monitoring Services
+  debug:
+    var: monitoring_services.stdout_lines
+
+- name: Verify StatefulSets
+  command: kubectl get statefulset -n {{ monitoring_namespace }}
+  register: monitoring_statefulsets
+  changed_when: false
+
+- name: Display StatefulSets
+  debug:
+    var: monitoring_statefulsets.stdout_lines
+
+- name: Verify DaemonSets
+  command: kubectl get daemonset -n {{ monitoring_namespace }}
+  register: monitoring_daemonsets
+  changed_when: false
+
+- name: Display DaemonSets
+  debug:
+    var: monitoring_daemonsets.stdout_lines
+
+- name: Verify PersistentVolumeClaims
+  command: kubectl get pvc -n {{ monitoring_namespace }}
+  register: monitoring_pvcs
+  changed_when: false
+
+- name: Display PersistentVolumeClaims
+  debug:
+    var: monitoring_pvcs.stdout_lines
+
+- name: Verify Prometheus CRDs
+  shell: kubectl get crd | grep monitoring.coreos.com
+  register: monitoring_crds
+  changed_when: false
+
+- name: Display Prometheus CRDs
+  debug:
+    var: monitoring_crds.stdout_lines
+
+- name: Retrieve Grafana admin password
+  shell: >
+    kubectl get secret
+    {{ monitoring_release_name }}-grafana
+    -n {{ monitoring_namespace }}
+    -o jsonpath="{.data.admin-password}" | base64 -d
+  register: grafana_password
+  changed_when: false
+
+- name: Display Grafana admin password
+  debug:
+    msg: "Grafana admin password: {{ grafana_password.stdout }}"
+
+

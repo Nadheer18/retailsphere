@@ -1,0 +1,23 @@
+---
+- name: Add Argo CD Helm repository
+  command: helm repo add argo https://argoproj.github.io/argo-helm
+  changed_when: false
+
+- name: Update Helm repositories
+  command: helm repo update
+  changed_when: false
+
+- name: Create Argo CD namespace
+  command: kubectl create namespace {{ argocd_namespace }}
+  register: ns_result
+  failed_when: false
+  changed_when: "'created' in ns_result.stdout"
+
+- name: Install Argo CD
+  command: >
+    helm upgrade --install
+    {{ argocd_release_name }}
+    argo/argo-cd
+    --namespace {{ argocd_namespace }}
+    --version {{ argocd_chart_version }}
+    --set server.service.type={{ argocd_service_type }}

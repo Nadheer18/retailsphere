@@ -1,0 +1,10 @@
+---
+monitoring_namespace: monitoring
+
+monitoring_release_name: monitoring
+
+monitoring_chart_name: prometheus-community/kube-prometheus-stack
+
+monitoring_chart_version: "77.2.1"
+
+values_file: /tmp/monitoring-values.yaml
