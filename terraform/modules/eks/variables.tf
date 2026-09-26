@@ -1,3 +1,7 @@
+# =========================================================
+# EKS CLUSTER
+# =========================================================
+
 variable "cluster_name" {
 
   description = "EKS cluster name"
@@ -24,6 +28,10 @@ variable "environment" {
 }
 
 
+# =========================================================
+# NETWORKING
+# =========================================================
+
 variable "private_subnet_ids" {
 
   description = "Private subnet IDs for EKS"
@@ -31,6 +39,10 @@ variable "private_subnet_ids" {
   type = list(string)
 }
 
+
+# =========================================================
+# NODE GROUP
+# =========================================================
 
 variable "node_instance_type" {
 
